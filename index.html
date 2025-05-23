@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Mahasiswa</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Playfair+Display:wght@600&family=Poppins:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <style>
+    body {
+      background-color: #f0f2f5;
+      font-family: 'Poppins', sans-serif;
+    }
+    .header, .course-title-card, .course-menu, .info-card, .task-card {
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .header {
+      background-color: #b3cce6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+    }
+    .avatar-header {
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      border-radius: 50%;
+      border: 2px solid #b3cce6;
+    }
+    .course-title-card {
+      background-color: #b3cce6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .course-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+    }
+    .notification-bell {
+      position: relative;
+      font-size: 1.5rem;
+    }
+    .notification-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #ff6b6b;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .menu-item {
+      background-color: #ffffff;
+      border-radius: 50px;
+      padding: 8px 20px;
+      border: none;
+      width: 100%;
+      margin-bottom: 10px;
+      text-align: left;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+    .menu-item.active {
+      background-color: #e6f0fa;
+    }
+    .info-card {
+      border: 2px solid #b3cce6;
+      background-color: white;
+    }
+    .task-card {
+      background-color: white;
+      border: 2px solid #b3cce6;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .action-buttons button {
+      border: 2px solid #b3cce6;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-4 mb-4">
+  <div class="header">
+    <h1 class="header-title">Dashboard Mahasiswa</h1>
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-bell-fill notification-bell"><span class="notification-badge" id="notif-count">0</span></i>
+      <div class="avatar-header"></div>
+    </div>
+  </div>
+
+  <div class="course-title-card">
+    <h2 class="course-name">Pilih Mata Kuliah</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="course-menu">
+        <h5>Mata Kuliah</h5>
+        <button class="menu-item">Aljabar & Linear</button>
+        <button class="menu-item">Riset Operasi</button>
+        <button class="menu-item">Algoritma</button>
+        <button class="menu-item">Pemrograman</button>
+        <button class="menu-item">Fotografi</button>
+        <button class="menu-item">Agama</button>
+        <button class="menu-item">PKN</button>
+        <button class="menu-item">Multimedia</button>
+        <button class="menu-item">Analisis Desain</button>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="info-card">
+        <h4 class="text-center mb-3">Informasi Mata Kuliah</h4>
+        <div id="tasks-container">
+          <p class="text-center">Tidak ada tugas saat ini</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script Section -->
+<script>
+  const tasksPerCourse = {
+    'Aljabar & Linear': [
+      { title: 'Tugas 01', desc: 'PPT Kelompok' },
+      { title: 'Tugas 02', desc: 'Mencari Jurnal' },
+      { title: 'Tugas 03', desc: 'Selesaikan Tugas Programming Linear' }
+    ],
+    'Riset Operasi': [
+      { title: 'Tugas 01', desc: 'Makalah penelitian operasi' },
+      { title: 'Tugas 02', desc: 'Presentasi optimasi' }
+    ],
+    'Algoritma': [
+      { title: 'Tugas 01', desc: 'Algoritma sorting' }
+    ],
+    'Pemrograman': [
+      { title: 'Tugas 01', desc: 'Aplikasi sederhana' },
+      { title: 'Tugas 02', desc: 'OOP Case Study' },
+      { title: 'Tugas 03', desc: 'Ujian Praktikum' }
+    ],
+    'Fotografi': [
+      { title: 'Tugas 01', desc: 'Karya foto tema bebas' }
+    ],
+    'Agama': [
+      { title: 'Tugas 01', desc: 'Essay toleransi beragama' }
+    ],
+    'PKN': [
+      { title: 'Tugas 01', desc: 'Diskusi Pancasila' }
+    ],
+    'Multimedia': [
+      { title: 'Tugas 01', desc: 'Video pendek' },
+      { title: 'Tugas 02', desc: 'Desain poster' }
+    ],
+    'Analisis Desain': [
+      { title: 'Tugas 01', desc: 'Analisis UI/UX aplikasi' }
+    ]
+  };
+
+  const menuItems = document.querySelectorAll('.menu-item');
+  const courseTitle = document.querySelector('.course-name');
+  const notifCount = document.getElementById('notif-count');
+  const taskContainer = document.getElementById('tasks-container');
+  let selectedCourse = '';
+
+  function renderTasks(tasks) {
+    taskContainer.innerHTML = '';
+    tasks.forEach((task, index) => {
+      const card = document.createElement('div');
+      card.className = 'task-card p-3 mb-3';
+      card.innerHTML = `
+        <strong>${task.title}</strong><br>${task.desc}
+        <div class="action-buttons">
+          <input type="file" class="form-control" />
+          <button onclick="alert('Tugas ditandai selesai')">serahkan</button>
+          <button onclick="let komen = prompt('Ketik komentar Anda:'); if (komen) alert('Komentar terkirim: ' + komen)">komen untuk dosen</button>
+        </div>`;
+      taskContainer.appendChild(card);
+    });
+  }
+
+  function updateNotifCount(count) {
+    notifCount.innerText = count;
+  }
+
+  menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+      // toggle active
+      if (selectedCourse === item.innerText) {
+        item.classList.remove('active');
+        selectedCourse = '';
+        courseTitle.innerText = 'Pilih Mata Kuliah';
+        taskContainer.innerHTML = '<p class="text-center">Tidak ada tugas saat ini</p>';
+        updateNotifCount(0);
+      } else {
+        menuItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        selectedCourse = item.innerText;
+        courseTitle.innerText = 'Mata Kuliah ' + selectedCourse;
+        const tasks = tasksPerCourse[selectedCourse] || [];
+        renderTasks(tasks);
+        updateNotifCount(tasks.length);
+      }
+    });
+  });
+</script>
+</body>
+</html>
